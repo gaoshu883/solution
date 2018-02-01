@@ -32,3 +32,9 @@ function removeDuplicateObject (arr) {
   });
 }
 ```
+## nwjs:node-remote配置
+
+```JSON
+  "node-remote": ["http://localhost"]
+  "node-remote": ["<all_urls>"]
+```
