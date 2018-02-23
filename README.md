@@ -49,3 +49,42 @@ function removeDuplicateObject (arr) {
 出现这种情况，一般为post请求（需要身份认证），一种情形是：服务器判断用户身份失败，则重定向到登录页面。如果开发过程中的ajax请求出现这类错误，可以考虑以下几点：
 + 发送请求时的参数不全或错误，比如缺少cookie，content-type，referer等字段，post data错误等
 + 请求是否必须为post类型，个别情况下修改为get请求则成功（极端）
+
+## 判断文本长度（汉字1，其他0.5）
+
+当用户在文本框或文本域中进行输入操作的时候，往往需要进行文本字数统计，一些情况下要求啊、汉字算一个，英文或其他可输入符号两个算一个
+
+```Javascript
+function calcTextLen(msg) {
+  let tempArr = [...msg];
+  let pattern = /[\u4e00-\u9fa5]/;
+  let len = 0; // 缓存总长
+  tempArr.forEach(item => {
+    if (pattern.test(item)) {
+      len++;
+    } else {
+      len = len + 0.5;
+    }
+  });
+  return Math.ceil(len);
+}
+```
+
+## 解析url
+```JavaScript
+/* 
+ * @param {string} url eg: http://www.lu3xiang.com?id=1&name=lucy
+ * @returns eg: {id:'1', name: 'lucy'}
+ */
+function getRequest(url) {
+  let theRequest = {};
+  if (url.indexOf('?') != -1) {
+    let str = url.substr(url.indexOf('?') + 1);
+    let strs = str.split('&');
+    for (var i = 0; i < strs.length; i++) {
+      theRequest[strs[i].split('=')[0]] = unescape(strs[i].split('=')[1]);
+    }
+  }
+  return theRequest;
+}
+```
